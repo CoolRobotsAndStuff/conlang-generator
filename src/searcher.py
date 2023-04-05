@@ -3,6 +3,8 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from copy import deepcopy, copy
 
+from toggle_button import ToggleButton
+
 class Searcher:
     def __init__(self, master, dict_to_search, selected_item_callback) -> None:
         self.dict_to_search = dict_to_search
@@ -21,35 +23,21 @@ class Searcher:
 
         self.result_buttons = []
 
-        self.button_normal_colour = "#375a7f"
-        self.button_pressed_colour = "#2c4866"
-
     def delete_results(self):
         for item in self.search_results_frame.winfo_children():
             item.destroy()
-    
-    def toggle(self, button: tk.Button):
-        button.config(background=self.button_pressed_colour, relief="sunken")
 
-    def untogle_all(self):
+    def untoggle_all(self):
         for button in self.result_buttons:
-            button.config(background=self.button_normal_colour, relief="flat")
+            button.untoggle()
 
-    def get_select_item_function(self, item, button):
+    def get_select_item_function(self, item):
         def select_item():
             self.selected_item = item
             self.selected_item_callback(item)
-            self.untogle_all()
-            self.toggle(button)
+            self.untoggle_all()
             print("set selected item to", item)
-
         return select_item
-    
-    def get_color_changing_function(self, button, color):
-        def change_color(e):
-            button.config(background=color)
-
-        return change_color
 
 
     def show_results(self, results):
@@ -57,23 +45,15 @@ class Searcher:
         self.result_buttons = []
         for result in results:
             item = (result, self.dict_to_search[result])
-            result_button = copy(tk.Button(self.search_results_frame, 
-                                           text=result))
-            result_button.config(background=self.button_normal_colour, 
-                                 activebackground=self.button_pressed_colour, 
-                                 activeforeground="white",
-                                 highlightbackground="#375a7f", 
-                                 command=self.get_select_item_function(item, result_button))
-            #result_button.bind('<Enter>', self.get_color_changing_function(result_button, "grey"))
-            #result_button.bind('<Leave>', self.get_color_changing_function(result_button, self.off_colour))
-            result_button.pack(side=TOP, pady=5, fill=X)
+            result_button = ToggleButton(self.search_results_frame, result, command=self.get_select_item_function(item))
+    
+            result_button.pack(side=TOP, pady=5, fill=X, padx=10)
 
             if result == self.selected_item[0]:
-                self.toggle(result_button)
+                result_button.toggle()
 
             self.result_buttons.append(result_button)
             
-           
 
     def search(self, *args):
         self.show_results(self.get_results())
@@ -87,7 +67,7 @@ class Searcher:
         return results
     
     def pack(self):
-        self.search_box.pack(fill=X, side=TOP)
+        self.search_box.pack(fill=X, side=TOP, padx=10)
         self.search_results_frame.pack(fill=X, side=TOP)
         #self.frame.pack(fill=BOTH, side=LEFT, expand=True)
         self.search()

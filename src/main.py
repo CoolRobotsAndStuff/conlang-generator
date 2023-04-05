@@ -4,6 +4,12 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
 from searcher import Searcher
+from stack_editor import StackEditor
+
+from characteristic import ComplexCharacteristic, Characteristic, CharacteristicStack
+from characteristics.sufix import Sufix
+
+
 
 # Root
 root = ttk.Window(themename="darkly")
@@ -16,31 +22,39 @@ tab_control = ttk.Notebook(root)
 #Stacks
 stacks_tab = ttk.PanedWindow(tab_control, orient=HORIZONTAL)
 
-my_dict = {
-    "verb":"verb_config",
-    "noun":"noun_config",
-    "adverb":"adverb_config"
+my_stacks = {
+    "verb":CharacteristicStack(),
+    "noun":CharacteristicStack(),
+    "adverb":CharacteristicStack()
 }
 
-stack_modifier_frame = ttk.Frame(stacks_tab)
+gender = ComplexCharacteristic("")
+gender.add_variant("femenino", Sufix("a"))
+gender.add_variant("masculino", Sufix("o"))
 
-current_stack_name = ttk.StringVar()
-current_stack_name_label = ttk.Label(stack_modifier_frame, textvariable=current_stack_name)
+number = ComplexCharacteristic("singular")
+number.add_variant("singular", Characteristic())
+number.add_variant("plural", Sufix("s"))
 
-current_stack_name_label.pack()
+my_stacks["noun"].insert_item(1, "gender", gender)
+my_stacks["noun"].insert_item(1, "number", number)
+
+
+stack_editor = StackEditor(stacks_tab)
+
 
 def show_searched_characteristic(item):
-    current_stack_name.set(item[0])
+    stack_editor.set_stack(item[0], item[1])
 
-stack_searcher = Searcher(stacks_tab, my_dict, show_searched_characteristic)
+stack_searcher = Searcher(stacks_tab, my_stacks, show_searched_characteristic)
 
 stacks_tab.add(stack_searcher.frame)
-stacks_tab.add(stack_modifier_frame)
+stacks_tab.add(stack_editor.frame)
 
 stacks_tab.pack()
 
 stack_searcher.pack()
-#stack_modifier_frame.pack(fill=BOTH)
+stack_editor.pack()
 
 
 

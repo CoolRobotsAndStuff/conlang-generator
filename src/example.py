@@ -3,11 +3,11 @@ from characteristic import ComplexCharacteristic, Characteristic, Characteristic
 from characteristics.sufix import Sufix
 from word import Word
 
-gender = ComplexCharacteristic("masculino")
+gender = ComplexCharacteristic("")
 gender.add_variant("femenino", Sufix("a"))
 gender.add_variant("masculino", Sufix("o"))
 
-number = ComplexCharacteristic("plural")
+number = ComplexCharacteristic("singular")
 number.add_variant("singular", Characteristic())
 number.add_variant("plural", Sufix("s"))
 
@@ -19,16 +19,19 @@ my_word = Word("gat", noun)
 
 my_word.characteristics.insert_item(0, "aumentativo", Sufix("az"))
 
-print(my_word)
 
-#my_word.set_characteristic("gender", "masculino")
+my_word.set_characteristic_value("gender", "masculino")
+my_word.set_characteristic_value("number", "plural")
 
-#print(my_word)
+print(my_word.get_string_representation())
 
-#my_word.set_characteristic("number", "plural")
+my_word.characteristics.move_item(0, 1)
 
-#print(my_word)
+print("moved")
 
+print(my_word.get_string_representation())
 
+my_word.characteristics.move_item("word_type", 1)
+print("moved")
 
-
+print(my_word.get_string_representation())
