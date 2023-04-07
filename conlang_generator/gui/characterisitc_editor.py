@@ -3,7 +3,7 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
 from toggle_button import ToggleButton
-from characteristic import Characteristic
+from backend.characteristic import Characteristic
 
 
 class CharacteristicEditor:

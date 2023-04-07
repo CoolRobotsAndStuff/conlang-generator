@@ -1,7 +1,7 @@
-from word_type import WordType
-from characteristic import ComplexCharacteristic, Characteristic, CharacteristicStack
-from characteristics.sufix import Sufix
-from word import Word
+from backend.word_type import WordType
+from backend.characteristic import ComplexCharacteristic, Characteristic, CharacteristicStack
+from backend.characteristics.sufix import Sufix
+from backend.word import Word
 
 gender = ComplexCharacteristic("")
 gender.add_variant("femenino", Sufix("a"))

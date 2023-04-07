@@ -6,8 +6,8 @@ from ttkbootstrap.constants import *
 from gui.searcher import Searcher
 from gui.stack_editor import StackEditor
 
-from characteristic import ComplexCharacteristic, Characteristic, CharacteristicStack
-from characteristics.sufix import Sufix
+from backend.characteristic import ComplexCharacteristic, Characteristic, CharacteristicStack
+from backend.characteristics.sufix import Sufix
 
 
 
