@@ -3,8 +3,8 @@ import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
-from searcher import Searcher
-from stack_editor import StackEditor
+from gui.searcher import Searcher
+from gui.stack_editor import StackEditor
 
 from characteristic import ComplexCharacteristic, Characteristic, CharacteristicStack
 from characteristics.sufix import Sufix
@@ -29,12 +29,12 @@ my_stacks = {
 }
 
 gender = ComplexCharacteristic("")
-gender.add_variant("femenino", Sufix("a"))
-gender.add_variant("masculino", Sufix("o"))
+gender.add_variant("femenino", Sufix({"sufix":"a"}))
+gender.add_variant("masculino", Sufix({"sufix":"o"}))
 
 number = ComplexCharacteristic("singular")
 number.add_variant("singular", Characteristic())
-number.add_variant("plural", Sufix("s"))
+number.add_variant("plural", Sufix({"sufix":"o"}))
 
 my_stacks["noun"].insert_item(1, "gender", gender)
 my_stacks["noun"].insert_item(1, "number", number)

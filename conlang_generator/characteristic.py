@@ -2,8 +2,8 @@ from stack import Stack
 from abc import ABC, abstractmethod
 
 class Characteristic:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, arguments: dict = {}) -> None:
+        self.arguments = arguments
 
     def apply(self, base):
         return base

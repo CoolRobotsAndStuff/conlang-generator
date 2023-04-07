@@ -25,6 +25,10 @@ class StackEditor:
     def delete_all_buttons(self):
         for item in self.characteristics_frame.winfo_children():
             item.destroy()
+    
+    def untoggle_all_buttons(self):
+        for item in self.characteristic_buttons:
+            item.untoggle()
 
     def set_stack(self, name, stack: CharacteristicStack):
         self.stack_name_text.set(name.capitalize())
@@ -34,7 +38,7 @@ class StackEditor:
         self.delete_all_buttons()
         self.characteristic_buttons = []
         for char in self.stack.members:
-            button = ToggleButton(self.characteristics_frame, char, lambda : 0)
+            button = ToggleButton(self.characteristics_frame, char, self.untoggle_all_buttons)
             button.pack(side=TOP, pady=5, fill=X, padx=5)
             self.characteristic_buttons.append(button)
 
