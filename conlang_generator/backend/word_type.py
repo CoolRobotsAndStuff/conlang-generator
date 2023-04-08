@@ -1,4 +1,4 @@
-from characteristic import CharacteristicStack, Characteristic
+from backend.characteristic import CharacteristicStack, Characteristic
 
 class WordType(CharacteristicStack):
     def __init__(self) -> None:

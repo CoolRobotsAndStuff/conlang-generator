@@ -1,4 +1,4 @@
-from characteristic import Characteristic
+from backend.characteristic import Characteristic
 
 
 class Sufix(Characteristic):

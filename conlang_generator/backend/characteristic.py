@@ -1,4 +1,4 @@
-from stack import Stack
+from backend.stack import Stack
 from abc import ABC, abstractmethod
 
 class Characteristic:

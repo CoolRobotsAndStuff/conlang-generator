@@ -1,5 +1,5 @@
-from characteristic import CharacteristicStack, Characteristic
-from word_type import WordType
+from backend.characteristic import CharacteristicStack, Characteristic
+from backend.word_type import WordType
 from copy import copy
 
 class Word():
