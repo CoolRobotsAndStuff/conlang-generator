@@ -2,12 +2,12 @@ import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
-from toggle_button import ToggleButton
-from characteristic import CharacteristicStack
+from gui.toggle_button import ToggleButton
+from backend.characteristic import CharacteristicStack, Characteristic
 
 
 class StackEditor:
-    def __init__(self, master) -> None:
+    def __init__(self, master, selected_item_callback) -> None:
         self.frame = ttk.Frame(master)
         self.stack = CharacteristicStack()
 
@@ -21,6 +21,18 @@ class StackEditor:
 
         self.characteristic_buttons = []
 
+        self.current_characteristic = Characteristic()
+        self.current_characteristic_name = "none"
+
+        self.selected_item_callback = selected_item_callback
+
+    def get_select_item_function(self, item):
+        def select_item():
+            self.selected_item = item
+            self.selected_item_callback(item)
+            self.untoggle_all_buttons()
+            print("set selected item to", item)
+        return select_item
 
     def delete_all_buttons(self):
         for item in self.characteristics_frame.winfo_children():
@@ -38,7 +50,8 @@ class StackEditor:
         self.delete_all_buttons()
         self.characteristic_buttons = []
         for char in self.stack.members:
-            button = ToggleButton(self.characteristics_frame, char, self.untoggle_all_buttons)
+            item = (char, self.stack.members[char])
+            button = ToggleButton(master=self.characteristics_frame, text=char, command=self.get_select_item_function(item))
             button.pack(side=TOP, pady=5, fill=X, padx=5)
             self.characteristic_buttons.append(button)
 

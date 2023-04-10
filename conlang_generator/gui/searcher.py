@@ -3,7 +3,7 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from copy import deepcopy, copy
 
-from toggle_button import ToggleButton
+from gui.toggle_button import ToggleButton
 
 class Searcher:
     def __init__(self, master, dict_to_search, selected_item_callback) -> None:

@@ -6,8 +6,8 @@ from copy import deepcopy, copy
 
 class ToggleButton:
     def __init__(self, master, text, command) -> None:
-        self.button = copy(tk.Button(master, 
-                                     text=text))
+        self.button = tk.Button(master, 
+                                text=text)
         
         self.normal_colour = "#375a7f"
         self.pressed_colour = "#2c4866"
