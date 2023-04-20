@@ -1,37 +1,54 @@
+from collections import UserString
+
 from backend.word_type import WordType
-from backend.characteristic import ComplexCharacteristic, Characteristic, CharacteristicStack
-from backend.characteristics.sufix import Sufix
-from backend.word import Word
+from backend.characteristic.complex_characteristic import ComplexCharacteristicBuilder
+from backend.characteristic.simple_characteristic import SimpleCharacteristicBuilder
+from backend.characteristic.characteristic_stack import CharacteristicStackBuilder
 
-gender = ComplexCharacteristic("")
-gender.add_variant("femenino", Sufix({"sufix":"a"}))
-gender.add_variant("masculino", Sufix({"sufix":"o"}))
+from backend.assets.characteristics.sufix import SufixBuilder
 
-number = ComplexCharacteristic("singular")
-number.add_variant("singular", Characteristic())
-number.add_variant("plural", Sufix({"sufix":"s"}))
+from backend.word import WordBuilder
+from backend.project import Project
 
-noun = CharacteristicStack()
-noun.insert_item(1, "gender", gender)
-noun.insert_item(1, "number", number)
+spanish = Project()
 
-my_word = Word("gat", noun)
+complex_builder = ComplexCharacteristicBuilder()
+simple_builder = SimpleCharacteristicBuilder()
+sufix_builder = SufixBuilder()
+stack_builder = CharacteristicStackBuilder()
 
-my_word.characteristics.insert_item(0, "aumentativo", Sufix({"sufix":"az"}))
+sufix_builder.set_argument("sufix", UserString("a"))
+complex_builder.add_variant("femenino", sufix_builder.get_characteristic())
+
+sufix_builder.set_argument("sufix", UserString("o"))
+complex_builder.add_variant("masculino", sufix_builder.get_characteristic())
+
+stack_builder.add_characteristic("gender", complex_builder.get_complex_characteristic())
 
 
-my_word.set_characteristic_value("gender", "masculino")
-my_word.set_characteristic_value("number", "plural")
+complex_builder.add_variant("singular", simple_builder.get_characteristic())
 
-print(my_word.get_string_representation())
+sufix_builder.set_argument("sufix", UserString("s"))
+complex_builder.add_variant("plural", sufix_builder.get_characteristic())
 
-my_word.characteristics.move_item(0, 1)
+complex_builder.set_default_value("singular")
 
-print("moved")
+stack_builder.add_characteristic("number", complex_builder.get_complex_characteristic())
+               
+spanish.characteristic_stacks["noun"] = stack_builder.get_stack()
 
-print(my_word.get_string_representation())
 
-my_word.characteristics.move_item("word_type", 1)
-print("moved")
 
-print(my_word.get_string_representation())
+word_builder = WordBuilder()
+
+word_builder.set_base(UserString("gat")) \
+            .add_word_type(spanish.characteristic_stacks["noun"])
+
+spanish.words["cat"] = word_builder.get_word()
+
+spanish.words["cat"].set_characteristic_value("gender", "masculino")
+spanish.words["cat"].set_characteristic_value("number", "plural")
+
+spanish.words["cat"].apply_characteristics()
+
+print(spanish.words["cat"].get_string_representation())

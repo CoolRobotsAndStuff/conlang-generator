@@ -3,7 +3,7 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
 from gui.toggle_button import ToggleButton
-from backend.characteristic import CharacteristicStack, Characteristic
+from backend.characteristic import CharacteristicStack, SimpleCharacteristic
 
 
 class StackEditor:
@@ -21,7 +21,7 @@ class StackEditor:
 
         self.characteristic_buttons = []
 
-        self.current_characteristic = Characteristic()
+        self.current_characteristic = SimpleCharacteristic()
         self.current_characteristic_name = "none"
 
         self.selected_item_callback = selected_item_callback
@@ -54,6 +54,10 @@ class StackEditor:
             button = ToggleButton(master=self.characteristics_frame, text=char, command=self.get_select_item_function(item))
             button.pack(side=TOP, pady=5, fill=X, padx=5)
             self.characteristic_buttons.append(button)
+
+        
+        self.selected_item_callback(("Not selected", SimpleCharacteristic()))
+
 
     def pack(self, *args, **kwargs):
         self.stack_name_label.pack(side=TOP, anchor=NW, padx=20, pady=10)
