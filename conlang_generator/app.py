@@ -1,14 +1,14 @@
 from collections import UserString
 
-from backend.word_type import WordType
+from conlang_generator.backend.project_builder.characteristic.word_type import WordType
 from backend.characteristic.complex_characteristic import ComplexCharacteristicBuilder
 from backend.characteristic.simple_characteristic import SimpleCharacteristicBuilder
 from backend.characteristic.characteristic_stack import CharacteristicStackBuilder
 
 from backend.assets.characteristics.sufix import SufixBuilder
 
-from backend.word import WordBuilder
-from backend.project import Project
+from conlang_generator.backend.project_builder.characteristic.word import WordBuilder
+from conlang_generator.backend.project.project import Project
 
 spanish = Project()
 

@@ -1,6 +1,6 @@
 from backend.characteristic.characteristic_stack import CharacteristicStack
 from backend.characteristic.characteristic_stack import CharacteristicStackBuilder
-from backend.word_type import WordType
+from conlang_generator.backend.project_builder.characteristic.word_type import WordType
 
 from collections import UserString
 from typing import Self
